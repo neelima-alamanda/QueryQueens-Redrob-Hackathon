@@ -30,3 +30,22 @@ def calculate_statistics(results):
         "lowest_score": min(scores),
         "average_score": sum(scores) / len(scores)
     }
+import csv
+
+def generate_submission(results, output_file="submission.csv"):
+    top100 = rank_top100(results)
+
+    with open(output_file, "w", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file)
+
+        writer.writerow(["rank", "candidate_id", "score", "reason"])
+
+        for rank, candidate in enumerate(top100, start=1):
+            writer.writerow([
+                rank,
+                candidate["candidate_id"],
+                candidate["score"],
+                candidate.get("reason", "")
+            ])
+
+    print(f"Submission saved to {output_file}")
