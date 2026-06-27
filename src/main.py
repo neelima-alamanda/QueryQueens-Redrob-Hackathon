@@ -1,5 +1,7 @@
 import json
 
+
+
 from parser import parse_candidate
 from features import extract_features
 from behavior import behavior_score
@@ -27,22 +29,24 @@ def main():
     candidates = load_candidates("data/candidates.jsonl")
 
     processed_candidates = []
-
     for candidate in candidates:
 
         parsed_candidate = parse_candidate(candidate)
 
         features = extract_features(parsed_candidate)
 
-        behavior = behavior_score(parsed_candidate)
+        behavior = behavior_score(
+    parsed_candidate.get("redrob_signals", {})
+)
 
         consistency = consistency_score(parsed_candidate)
-
+       
         final_score = calculate_final_score(
-            features,
-            behavior,
-            consistency
-        )
+    parsed_candidate,
+    features,
+    behavior,
+    consistency
+)
 
         explanation = generate_explanation(
             parsed_candidate,

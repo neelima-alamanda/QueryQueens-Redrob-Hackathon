@@ -29,8 +29,6 @@ PREFERRED_SKILLS = [
     "distributed systems",
     "open source",
 ]
-
-
 def generate_explanation(
     candidate,
     features,
@@ -39,10 +37,9 @@ def generate_explanation(
     final_score,
 ):
 
-    profile = candidate["profile"]
+    profile = candidate.get("profile", {})
 
     title = profile.get("current_title", "Unknown Role")
-
     experience = profile.get("years_of_experience", 0)
 
     skills = [
@@ -51,59 +48,108 @@ def generate_explanation(
     ]
 
     reasons = []
+    # Overall recommendation
 
-    # Experience
+    if final_score >= 85:
+        reasons.append(
+        "Excellent match for the Senior AI Engineer role"
+    )
+    elif final_score >= 70:
+        reasons.append(
+        "Strong match for the role"
+    )
+    elif final_score >= 55:
+        reasons.append(
+        "Moderate match with some skill gaps"
+    )
+    else:
+        reasons.append(
+        "Limited match for the target role"
+    )
 
+    # Role + Experience
     reasons.append(
         f"{experience} years of experience as {title}"
     )
 
-    # Required Skills
-
+    # Critical Skills
     matched_required = []
 
     for skill in REQUIRED_SKILLS:
         if any(skill in s for s in skills):
             matched_required.append(skill)
-
     if matched_required:
         reasons.append(
-            f"Matched {len(matched_required)} critical AI skills"
-        )
+        f"Matched {len(matched_required)} critical AI skills including {', '.join(matched_required[:5])}"
+    )
+    else:
+        reasons.append(
+        "Few critical AI skills detected"
+    )
+
 
     # Preferred Skills
-
     matched_preferred = []
 
     for skill in PREFERRED_SKILLS:
-        if any(skill in s for s in skills):
-            matched_preferred.append(skill)
+        if any(skill == s or skill in s for s in skills):
+            if matched_preferred:
+                reasons.append(
+            f"Preferred skills: {', '.join(matched_preferred[:3])}"
+        )
+    # Experience relevance
 
-    if matched_preferred:
+    if 5 <= experience <= 9:
         reasons.append(
-            f"{len(matched_preferred)} preferred skills detected"
+        "Experience matches the preferred hiring range"
+    )
+    elif experience > 9:
+        reasons.append(
+        "Experienced beyond the preferred range"
+    )
+    else:
+        reasons.append(
+        "Below the preferred experience range"
+    )
+
+    # Technical Profile
+    if features.get("technical_score", 0) >= 80:
+        reasons.append(
+            "Strong technical background"
         )
 
-    # Technical
-
-    if features.get("technical_score", 0) >= 80:
-        reasons.append("Strong technical profile")
-
-    # Career
-
+    # Career Progression
     if features.get("career_score", 0) >= 80:
-        reasons.append("Relevant AI career progression")
+        reasons.append(
+            "Career aligns well with AI engineering"
+        )
 
     # Behaviour
-
     if behavior_score >= 70:
-        reasons.append("Positive recruiter engagement")
+        reasons.append(
+            "Strong recruiter engagement"
+        )
+    elif behavior_score >= 50:
+        reasons.append(
+        "Average recruiter engagement"
+    )
+    elif behavior_score < 40:
+        reasons.append(
+            "Low recruiter engagement"
+        )
 
     # Consistency
-
     if consistency_score >= 80:
-        reasons.append("Highly consistent profile")
+        reasons.append(
+            "Profile information is highly consistent"
+        )
+    elif consistency_score < 50:
+        reasons.append(
+            "Some inconsistencies detected"
+        )
 
-    reasons.append(f"Final Score: {final_score}")
+    reasons.append(
+    f"Final ranking score: {final_score}"
+)
 
-    return ". ".join(reasons)
+    return ". ".join(reasons[:8])

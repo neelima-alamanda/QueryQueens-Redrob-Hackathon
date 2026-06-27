@@ -23,6 +23,7 @@ JOB_PROFILE = {
         "Software Engineer",
         "Backend Engineer"
     ],
+    
 
     # ------------------------------------
     # Strong Technical Skills
@@ -123,3 +124,17 @@ JOB_PROFILE = {
     }
 
 }
+def build_job_text():
+    """
+    Converts the structured job profile into
+    a natural language job description for semantic matching.
+    """
+
+    parts = []
+
+    parts.extend(JOB_PROFILE["preferred_titles"])
+    parts.extend(JOB_PROFILE["must_have_skills"])
+    parts.extend(JOB_PROFILE["preferred_skills"])
+    parts.extend(JOB_PROFILE["preferred_domains"])
+
+    return " ".join(parts)

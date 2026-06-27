@@ -93,6 +93,14 @@ def consistency_score(parsed_candidate):
 
     if education:
         score += 10
+    # -------------------------
+    # Experience Consistency
+    # -------------------------
+
+    if experience >= 5 and len(career_history) >= 2:
+        score += 10
+    elif experience >= 3 and len(career_history) >= 1:
+        score += 5
 
     # -------------------------
     # Profile Completeness
@@ -104,6 +112,18 @@ def consistency_score(parsed_candidate):
         and skills
     ):
         score += 15
+    # -------------------------
+    # Career Title Matches Skills
+    # -------------------------
+
+    if title_is_ai and matched >= 4:
+        score += 10
+    # -------------------------
+    # Missing Career Penalty
+    # -------------------------
+
+    if experience >= 5 and len(career_history) == 0:
+        score -= 10
 
     score = max(score, 0)
     score = min(score, 100)

@@ -107,6 +107,46 @@ def behavior_score(redrob_signals):
             score += 3
         else:
             score += 1
+    # ----------------------------
+    # Last Active
+    # ----------------------------
+
+    search_appearance = redrob_signals.get(
+        "search_appearance_30d",
+        0
+    )
+
+    if search_appearance >= 50:
+        score += 5
+    elif search_appearance >= 20:
+        score += 3
+
+    # ----------------------------
+    # Saved by Recruiters
+    # ----------------------------
+
+    saved = redrob_signals.get(
+        "saved_by_recruiters_30d",
+        0
+    )
+
+    if saved >= 20:
+        score += 5
+    elif saved >= 10:
+        score += 3
+
+    # ----------------------------
+    # Verified Profile
+    # ----------------------------
+
+    if redrob_signals.get("verified_email", False):
+        score += 2
+
+    if redrob_signals.get("verified_phone", False):
+        score += 2
+
+    if redrob_signals.get("linkedin_connected", False):
+        score += 2
     score = max(score, 0)
     score = min(score, 100)
 
