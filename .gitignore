@@ -1,1 +1,3 @@
 data/candidates.jsonl
+__pycache__/
+submission.csv
