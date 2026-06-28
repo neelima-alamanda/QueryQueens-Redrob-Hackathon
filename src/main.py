@@ -44,6 +44,7 @@ def main():
 )
 
         consistency = consistency_score(parsed_candidate)
+        
        
         final_score = calculate_final_score(
     parsed_candidate,
@@ -59,14 +60,31 @@ def main():
             consistency,
             final_score
         )
-        
         processed_candidates.append({
-            "candidate_id": parsed_candidate["candidate_id"],
-            "candidate": parsed_candidate,
-            "score": final_score,
-            "reason": explanation
-        })
+    "candidate_id": parsed_candidate["candidate_id"],
 
+    "candidate": parsed_candidate,
+
+    "score": final_score,
+
+    "reason": explanation,
+
+    "role": features.get("current_title", ""),
+
+    "experience": features.get(
+        "years_of_experience",
+        0
+    ),
+
+    "skills": features.get(
+        "skills",
+        []
+    ),
+
+    "behavior": behavior,
+
+    "consistency": consistency
+})
     processed_candidates.sort(
         key=lambda x: (
             x["score"],
