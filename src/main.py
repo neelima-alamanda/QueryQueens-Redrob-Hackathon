@@ -63,7 +63,10 @@ def main():
         })
 
     processed_candidates.sort(
-        key=lambda x: x["score"],
+        key=lambda x: (
+            x["score"],
+            x["candidate_id"]
+        ),
         reverse=True
     )
 

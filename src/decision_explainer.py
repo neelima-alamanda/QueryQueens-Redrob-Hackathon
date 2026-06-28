@@ -86,17 +86,16 @@ def generate_explanation(
         reasons.append(
         "Few critical AI skills detected"
     )
-
-
-    # Preferred Skills
     matched_preferred = []
 
     for skill in PREFERRED_SKILLS:
         if any(skill == s or skill in s for s in skills):
-            if matched_preferred:
-                reasons.append(
+            matched_preferred.append(skill)
+
+    if matched_preferred:
+        reasons.append(
             f"Preferred skills: {', '.join(matched_preferred[:3])}"
-        )
+        )    
     # Experience relevance
 
     if 5 <= experience <= 9:

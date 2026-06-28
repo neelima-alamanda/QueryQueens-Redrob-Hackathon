@@ -61,11 +61,13 @@ def behavior_score(redrob_signals):
     # ----------------------------
 
     profile = redrob_signals.get(
-        "profile_completeness",
+        "profile_completeness_score",
         0
     )
-
-    score += round(profile * 15)
+    # Dataset stores this as a percentage (0–100).
+    # Convert it to a 0–1 scale before applying the weight.
+    score += round((profile / 100) * 15)
+    
 
     # ----------------------------
     # GitHub Activity
