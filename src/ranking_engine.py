@@ -190,3 +190,13 @@ def calculate_final_score(
     score = min(score, 100)
 
     return round(score, 2)
+def calculate_hybrid_score(rule_score, semantic_score):
+
+    semantic_score = semantic_score * 100
+
+    final_score = (
+        rule_score * 0.7 +
+        semantic_score * 0.3
+    )
+
+    return round(min(final_score, 100), 2)
