@@ -80,8 +80,9 @@ def generate_explanation(
             matched_required.append(skill)
     if matched_required:
         reasons.append(
-        f"Matched {len(matched_required)} critical AI skills including {', '.join(matched_required[:5])}"
-    )
+            f"Matched {len(matched_required)} critical AI skills ({', '.join(matched_required[:5]).title()})"
+        )
+    
     else:
         reasons.append(
         "Few critical AI skills detected"
@@ -137,6 +138,55 @@ def generate_explanation(
             "Low recruiter engagement"
         )
 
+
+    notice = candidate.get(
+        "redrob_signals",
+        {}
+    ).get("notice_period_days", 90)
+
+    if notice <= 30:
+        reasons.append("Available to join within 30 days")
+    elif notice <= 60:
+        reasons.append("Reasonable notice period")
+    else:
+        reasons.append("Longer notice period")
+
+    offer = candidate.get(
+        "redrob_signals",
+        {}
+    ).get("offer_acceptance_rate", 0)
+
+    if offer >= 0.8:
+        reasons.append("High offer acceptance history")
+    elif offer >= 0.6:
+        reasons.append("Good offer acceptance rate")
+
+
+    github = candidate.get(
+        "redrob_signals",
+        {}
+    ).get("github_activity_score", 0)
+
+    if github >= 8:
+        reasons.append("Strong GitHub activity")
+
+
+    assessments = candidate.get(
+        "redrob_signals",
+        {}
+    ).get("skill_assessment_scores", {})
+
+    if assessments:
+
+        average = sum(
+            assessments.values()
+        ) / len(assessments)
+
+        if average >= 70:
+            reasons.append(
+                "Strong platform skill assessments"
+            )
+
     # Consistency
     if consistency_score >= 80:
         reasons.append(
@@ -147,8 +197,6 @@ def generate_explanation(
             "Some inconsistencies detected"
         )
 
-    reasons.append(
-    f"Final ranking score: {final_score}"
-)
+    
 
     return ". ".join(reasons[:8])

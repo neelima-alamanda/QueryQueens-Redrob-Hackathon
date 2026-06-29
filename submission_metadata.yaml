@@ -1,0 +1,95 @@
+# ============================================================================
+# Team Identity
+# ============================================================================
+
+team_name: "QueryQueens"
+
+primary_contact:
+  name: "Neelima Alamanda"
+  email: "neelimaalamanda2005@gmail.com"
+  phone: "+91-9640641798"
+
+team_members:
+  - name: "Neelima Alamanda"
+    email: "neelimaalamanda2005@gmail.com"
+    role: "Team Lead, Hybrid Ranking Engine & Semantic Ranking"
+
+  - name: "Uma"
+    email: "umareddymarrivada@gmail.com"
+    role: "Backend Development & Semantic Ranking"
+
+  - name: "Phanisri"
+    email: "phanisrichowdary05@gmail.com"
+    role: "Frontend Development & Evaluation Module"
+
+  - name: "Pavani"
+    email: "pavanisirisetti9@gmail.com"
+    role: "Parser, Feature Engineering & Candidate Intelligence"
+
+# ============================================================================
+# Repository Information
+# ============================================================================
+
+github_repo: "https://github.com/neelima-alamanda/QueryQueens-Redrob-Hackathon"
+
+sandbox_link: "PASTE_HUGGING_FACE_SPACE_URL_HERE"
+
+reproduce_command: "python src/main.py"
+
+# ============================================================================
+# Compute Environment
+# ============================================================================
+
+compute:
+  platform: "Local Windows PC (13th Gen Intel Core i5-1334U)"
+  cpu_cores: 12
+  ram_gb: 16
+  python_version: "3.14"
+  os: "Windows 11 Pro (25H2)"
+  uses_gpu_for_inference: false
+  has_network_during_ranking: false
+  pre_computation_required: true
+  pre_computation_time_minutes: 2
+
+# ============================================================================
+# AI Tools Declaration
+# ============================================================================
+
+ai_tools_used:
+  - "ChatGPT"
+  - "GitHub Copilot"
+
+ai_usage_summary: |
+  ChatGPT was used for architectural discussions, debugging support, code
+  review, documentation refinement, and implementation guidance during
+  development. GitHub Copilot was used for inline code suggestions and
+  developer productivity. The system design, feature engineering, ranking
+  strategy, integration, testing, and final implementation were completed,
+  validated, and reviewed by the team. No candidate data was submitted to
+  external AI services during the ranking process.
+
+# ============================================================================
+# Methodology Summary
+# ============================================================================
+
+methodology_summary: |
+  QueryQueens is an AI-powered candidate ranking system developed for the
+  Redrob Data & AI Challenge. The solution combines feature extraction,
+  behavioral signal analysis, semantic similarity matching using Sentence
+  Transformers, profile consistency validation, honeypot detection, and
+  explainable AI. Technical, behavioral, and semantic scores are combined
+  using a hybrid ranking strategy to generate the Top 100 candidates along
+  with human-readable explanations. A Flask-based dashboard enables users
+  to upload candidate data, execute the ranking pipeline, visualize results,
+  and download a submission-ready CSV file.
+
+# ============================================================================
+# Declarations
+# ============================================================================
+
+declarations:
+  read_submission_spec: true
+  code_is_original_work: true
+  no_collusion: true
+  honeypot_check_done: true
+  reproduction_tested: true

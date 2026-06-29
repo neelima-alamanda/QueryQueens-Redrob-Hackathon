@@ -1,3 +1,4 @@
+from datetime import datetime
 def honeypot_penalty(parsed_candidate):
     """
     Detect suspicious/inconsistent candidate profiles.
@@ -45,7 +46,15 @@ def honeypot_penalty(parsed_candidate):
         "ranking",
         "embedding",
         "llm",
-        "vector database"
+        "vector database",
+        "faiss",
+        "milvus",
+        "pinecone",
+        "weaviate",
+        "qdrant",
+        "lora",
+        "qlora",
+        "peft",
     ]
 
     matched_ai = sum(
@@ -143,4 +152,37 @@ def honeypot_penalty(parsed_candidate):
         penalty += 6
         reasons.append("Incomplete profile")
 
+    #Rule 10
+    signals = parsed_candidate.get("redrob_signals", {})
+
+    if (
+        signals.get("open_to_work_flag", False)
+        and signals.get("notice_period_days", 0) > 120
+    ):
+        penalty += 4
+        reasons.append("Open to work with long notice period")
+
+    response = signals.get(
+        "recruiter_response_rate",
+        0
+    )
+
+    if response < 0.10:
+        penalty += 4
+        reasons.append("Very low recruiter response")
+    last_active = signals.get("last_active_date")
+
+    if last_active:
+
+        days = (
+            datetime.now() -
+            datetime.strptime(
+                last_active,
+                "%Y-%m-%d"
+            )
+        ).days
+
+        if days > 180:
+            penalty += 3
+            reasons.append("Profile inactive for a long time")
     return penalty, reasons

@@ -1,3 +1,4 @@
+from datetime import datetime
 def behavior_score(redrob_signals):
     """
     Recruiter-oriented behavior scoring.
@@ -109,9 +110,49 @@ def behavior_score(redrob_signals):
             score += 3
         else:
             score += 1
+
+    # ----------------------------
+    # Notice Period
+    # ----------------------------
+
+    notice = redrob_signals.get(
+        "notice_period_days",
+        90
+    )
+
+    if notice <= 30:
+        score += 8
+    elif notice <= 60:
+        score += 6
+    elif notice <= 90:
+        score += 3
+    else:
+        score += 1
+
     # ----------------------------
     # Last Active
     # ----------------------------
+
+    last_active = redrob_signals.get("last_active_date")
+
+    if last_active:
+
+        last_active = datetime.strptime(
+            last_active,
+            "%Y-%m-%d"
+        )
+
+        days = (
+            datetime.now() - last_active
+        ).days
+
+        if days <= 7:
+            score += 5
+        elif days <= 30:
+            score += 3
+        elif days <= 90:
+            score += 1
+    
 
     search_appearance = redrob_signals.get(
         "search_appearance_30d",
@@ -137,6 +178,44 @@ def behavior_score(redrob_signals):
     elif saved >= 10:
         score += 3
 
+    # ----------------------------
+    # Offer Acceptance Rate
+    # ----------------------------
+
+    offer = redrob_signals.get(
+        "offer_acceptance_rate",
+        0
+    )
+
+    if offer >= 0.80:
+        score += 6
+    elif offer >= 0.60:
+        score += 4
+    elif offer >= 0.40:
+        score += 2
+
+    # ----------------------------
+    # Skill Assessment Scores
+    # ----------------------------
+
+    assessments = redrob_signals.get(
+        "skill_assessment_scores",
+        {}
+    )
+
+    if assessments:
+
+        average = (
+            sum(assessments.values()) /
+            len(assessments)
+        )
+
+        if average >= 80:
+            score += 6
+        elif average >= 60:
+            score += 4
+        elif average >= 40:
+            score += 2
     # ----------------------------
     # Verified Profile
     # ----------------------------

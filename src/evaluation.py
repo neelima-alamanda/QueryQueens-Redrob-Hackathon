@@ -32,7 +32,7 @@ def calculate_statistics(results):
     }
 import csv
 
-def generate_submission(results, output_file="submission.csv"):
+def generate_submission(results, output_file="QueryQueens.csv"):
 
     top100 = rank_top100(results)
 

@@ -1,3 +1,8 @@
 data/candidates.jsonl
+QueryQueens.csv
+
 __pycache__/
-submission.csv
+*.pyc
+
+.vscode/
+outputs/
