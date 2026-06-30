@@ -1,3 +1,14 @@
+---
+title: Queryqueens Redrob Hackathon
+emoji: 🐢
+colorFrom: yellow
+colorTo: red
+sdk: docker
+pinned: false
+license: mit
+short_description: AI-powered candidate ranking system for the Redrob Data & AI
+---
+
 # QueryQueens-Redrob-Hackathon
 
 AI-powered candidate ranking system developed for the Redrob Data & AI Challenge.
@@ -220,3 +231,6 @@ The system generates:
 - Support real-time candidate ranking through APIs.
 
 > **Note:** During the first execution, the Sentence Transformer model may be downloaded and cached locally. Subsequent runs use the cached model for faster execution.
+
+
+
