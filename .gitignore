@@ -1,5 +1,6 @@
 data/candidates.jsonl
 QueryQueens.csv
+data/validate_submission.py
 
 __pycache__/
 *.pyc

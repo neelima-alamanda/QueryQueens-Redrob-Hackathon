@@ -18,7 +18,10 @@ def runtime_test(start_time):
 
 
 def rank_top100(results):
-    return sorted(results, key=lambda x: x["score"], reverse=True)[:100]
+    return sorted(
+        results,
+        key=lambda x: (-x["score"], x["candidate_id"])
+    )[:100]
 
 
 def calculate_statistics(results):
@@ -43,18 +46,19 @@ def generate_submission(results, output_file="QueryQueens.csv"):
 
         writer = csv.writer(file)
 
+        # Header required by the validator
         writer.writerow([
-            "rank",
             "candidate_id",
+            "rank",
             "score",
-            "reason"
+            "reasoning"
         ])
 
         for rank, candidate in enumerate(top100, start=1):
 
             writer.writerow([
-                rank,
                 candidate["candidate_id"],
+                rank,
                 candidate["score"],
                 candidate.get("reason", "")
             ])
